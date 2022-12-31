@@ -1,0 +1,33 @@
+name: Custom Build Application
+
+on:
+  push:
+    branches-ignore:
+      - 'renovate/**'
+    paths-ignore:
+      - '**.md'
+      - '**/LICENSE'
+      - 'flake.lock'
+      - 'packages/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.markdownlint**'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - '**/LICENSE'
+      - 'flake.lock'
+      - 'packages/**'
+      - '.github/ISSUE_TEMPLATE/**'
+      - '.markdownlint**'
+
+jobs:
+
+  build_release:
+    name: Build Release
+    uses: ./.github/workflows/custom_build.yml
+    with:
+      build_type: Release
+      is_qt_cached: true
+    secrets:
+      SPARKLE_ED25519_KEY: ${{ secrets.SPARKLE_ED25519_KEY }}
+      CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
